@@ -1,24 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import { get } from 'idb-keyval';
+import { useEffect } from 'react';
+import { useAppDispatch } from './hooks/redux-hooks';
+import { authActions } from './store/auth-slice';
+import Header from './components/header/Header';
+import ItemPage from './components/item-page/ItemPage';
 
 function App() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    get('jwt').then((val) => {
+      if (val) dispatch(authActions.consumeJwtFromIDB(val));
+    });
+  }, [dispatch]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <Routes>
+        {/* Public Routes: */}
+        <Route path="/" element={<></>} />
+        <Route path="/login" element={<></>} />
+        <Route path="/items/:itemid" element={<ItemPage />} />
+
+        {/* Protected Routes: */}
+        <Route path="/itemmenu" element={<></>} />
+        <Route path="/itemmenu/:itemid" element={<></>} />
+      </Routes>
     </div>
   );
 }

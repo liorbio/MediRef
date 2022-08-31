@@ -1,0 +1,10 @@
+.bigBtn {
+    background-color: #002A48;
+    color: #fff;
+    width: 95vw;
+    padding: 7px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
