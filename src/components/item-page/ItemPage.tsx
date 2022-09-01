@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Item } from "../../types/item_types";
+import InfoSection from "./InfoSection";
 
 const ItemPage = () => {
     const params = useParams();
@@ -22,45 +23,12 @@ const ItemPage = () => {
             <p>{`מק"ט: ${item.cat}`}</p>
             <p>{item.description}</p>
             {item.imageLink && <img src={item.imageLink} alt={item.name} />}
-            {item.models && 
-                <>
-                    <h2>דגמים</h2>
-                    {item.models.map(m => <p>{`${m.cat} - ${m.name}`}</p>)}
-                </>    
-            }
-            {item.kitItem && 
-                <>
-                    <h2>שייך לערכות</h2>
-                    {item.kitItem.map(m => <p>{`${m.cat} - ${m.name}`}</p>)}
-                </>    
-            }
-            {item.belongsToKits && 
-                <>
-                    <h2>שייך לערכות</h2>
-                    {item.belongsToKits.map(m => <p>{`${m.cat} - ${m.name}`}</p>)}
-                </>    
-            }
-            {
-                item.similarItems &&
-                <>
-                    <h2>אביזרים</h2>
-                    {item.similarItems.map(m => <p>{`${m.cat} - ${m.name}`}</p>)}
-                </>  
-            }
-            {
-                item.accessories &&
-                <>
-                    <h2>אביזרים</h2>
-                    {item.accessories.map(m => <p>{`${m.cat} - ${m.name}`}</p>)}
-                </>  
-            }
-            {
-                item.consumables &&
-                <>
-                    <h2>אביזרים</h2>
-                    {item.consumables.map(m => <p>{`${m.cat} - ${m.name}`}</p>)}
-                </>  
-            }
+            {item.models && <InfoSection title="דגמים" elements={item.models} />}
+            {item.kitItem && <InfoSection title="מכשיר" elements={item.kitItem} />}
+            {item.belongsToKits && <InfoSection title="שייך לערכות" elements={item.belongsToKits} />}
+            {item.similarItems && <InfoSection title="פריטים דומים" elements={item.similarItems} />}
+            {item.accessories && <InfoSection title="אביזרים" elements={item.accessories} />}
+            {item.consumables && <InfoSection title="אביזרים" elements={item.consumables} />}
         </>}
         </>
     );

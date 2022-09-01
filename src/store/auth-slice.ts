@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { set } from 'idb-keyval';
 
-const initialAuthState = { jwt: "" };
+const initialAuthState = { jwt: "", frontEndPrivilege: "public" };
 
 const authSlice = createSlice({
     name: 'auth',
@@ -17,6 +17,17 @@ const authSlice = createSlice({
         clearJwt(state) {
             state.jwt = "";
             set('jwt', "").then(() => console.log("Cleared JWT from localStorage")).catch((err) => console.log(`Error clearing JWT from localStorage: ${err}`));
+        },
+        setFrontEndPrivilegeUponLogin(state, action: PayloadAction<string>) {
+            state.frontEndPrivilege = action.payload;
+            set('front-end-privilege', state.frontEndPrivilege).then(() => console.log("Saved front-end-privilege in localStorage")).catch((err) => console.log(`Error saving front-end-privilege in localStorage: ${err}`));
+        },
+        consumeFrontEndPrivilegeFromIDB(state, action: PayloadAction<string>) {
+            state.frontEndPrivilege = action.payload;
+        },
+        clearFrontEndPrivilege(state) {
+            state.frontEndPrivilege = "public";
+            set('front-end-privilege', "public").then(() => console.log("Saved front-end-privilege as public in localStorage")).catch((err) => console.log(`Error saving front-end-privilege as public in localStorage: ${err}`));
         }
     }
 });

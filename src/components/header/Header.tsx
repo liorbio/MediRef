@@ -3,13 +3,13 @@ import LeftHeaderSide from "./LeftHeaderSide";
 import RightHeaderSide from "./RightHeaderSide";
 
 const Header = () => {
-    const loggedIn = useAppSelector(state => !!state.auth.jwt);
+    const loggedInAsAdmin = useAppSelector(state => state.auth.frontEndPrivilege !== "public");
 
     return (
         <nav>
-            <RightHeaderSide loggedIn={loggedIn} />
+            <RightHeaderSide loggedInAsAdmin={loggedInAsAdmin} />
             <h1>MediRef</h1>
-            {loggedIn && <LeftHeaderSide />}
+            {loggedInAsAdmin && <LeftHeaderSide />}
         </nav>
     )
 };
