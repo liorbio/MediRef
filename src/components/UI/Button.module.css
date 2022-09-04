@@ -1,8 +1,10 @@
+@import '../../css-variables/constants.css';
+
 .bigBtn {
     background-color: #002A48;
     color: #fff;
-    width: 95vw;
-    padding: 7px;
+    width: calc(100vw - 2*var(--gutterHorizontal));
+    padding: 7px 0;
     margin: auto;
     display: flex;
     justify-content: center;

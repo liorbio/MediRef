@@ -1,8 +1,12 @@
-import classes from "Button.module.css";
+import classes from "./Button.module.css";
 
-const BigButton = ({ text }: { text: string }) => {
+const BigButton = ({ text, action }: { text: string, action: () => void }) => {
+    const handleClick = () => {
+        action();
+    }
+
     return (
-        <div className={classes.bigBtn}>
+        <div className={classes.bigBtn} onClick={handleClick}>
             {text}
         </div>
     )

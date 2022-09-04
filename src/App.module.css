@@ -1,0 +1,11 @@
+@import './css-variables/constants.css';
+
+.App {
+  text-align: center;
+}
+
+.pushBodyDown {
+  top: var(--navbarHeight);
+  position: absolute;
+  width: 100vw;
+}

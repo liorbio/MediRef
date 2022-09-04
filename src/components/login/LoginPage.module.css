@@ -1,0 +1,15 @@
+@import '../../css-variables/constants.css';
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    padding: var(--gutterHorizontal);
+}
+.loginForm h1 {
+    font-size: 1.4rem;
+    margin: 0.5rem 0;
+}
+.loginForm input {
+    height: var(--searchInputHeight);
+    margin-bottom: 0.5rem;
+}

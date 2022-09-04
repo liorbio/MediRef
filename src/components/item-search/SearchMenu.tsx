@@ -4,18 +4,24 @@ import DebouncingSearchBar from "./DebouncingSearchBar";
 import DepartmentSelection from "./DepartmentSelection";
 import SectorSelection from "./SectorSelection";
 import classes from './HomePage.module.css';
+import { useAppSelector } from "../../hooks/redux-hooks";
 
 const SearchMenu = () => {
     const [sectors, setSectors] = useState<Sector[]>([]);
     const [selectedSector, setSelectedSector] = useState("");
     const [selectedDepartment, setSelectedDepartment] = useState("");
+    const authToken = useAppSelector(state => state.auth.jwt);
 
     useEffect(() => {
         // FETCH SECTORS FROM API + use setSectors on them.
-        fetch(`/sectors`).then((res) => res.json()).then((res) => {
+        fetch(`/sectors`, {
+            headers: authToken ? {
+                'auth-token': authToken
+            } : {}
+        }).then((res) => res.json()).then((res) => {
             setSectors(res);
         });
-    }, []);
+    }, [authToken]);
 
     const handleSetSector = (value: string) => {
         setSelectedSector(value);
@@ -28,7 +34,7 @@ const SearchMenu = () => {
     
     return (
         <div className={classes.searchMenu}>
-            <DebouncingSearchBar sector={selectedSector} department={selectedDepartment} />
+            <DebouncingSearchBar sectorsLoaded={!!sectors} sector={selectedSector} department={selectedDepartment} />
             {!sectors && <>{/* LOADING SPINNER OR SHINING RECTANGLES */}</>}
             {sectors && <>
                 <SectorSelection sectorNames={sectors.map(s => { return { sectorName: s.sectorName, _id: s._id } })} handleSetSector={handleSetSector} />

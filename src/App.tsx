@@ -1,4 +1,4 @@
-import './App.css';
+import classes from './App.module.css';
 import { Routes, Route } from 'react-router-dom';
 import { get } from 'idb-keyval';
 import { useEffect } from 'react';
@@ -8,6 +8,7 @@ import Header from './components/header/Header';
 import ItemPage from './components/item-page/ItemPage';
 import AdminOnly from './components/authorization/AdminOnly';
 import HomePage from './components/item-search/HomePage';
+import LoginPage from './components/login/LoginPage';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -22,21 +23,23 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div className="App">
+    <div className={classes.App}>
       <Header />
-      <Routes>
-        {/* Public Routes: */}
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<></>} />
-        <Route path="/items/:itemid" element={<ItemPage />} />
+      <div className={classes.pushBodyDown}>
+        <Routes>
+          {/* Public Routes: */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/items/:itemid" element={<ItemPage />} />
 
-        {/* Protected Routes: */}
-        <Route path="/itemmenu" element={<AdminOnly><></></AdminOnly>} />
-        <Route path="/itemmenu/:itemid" element={<AdminOnly><></></AdminOnly>} />
-        <Route path="/managesectors" element={<AdminOnly><></></AdminOnly>} />
-        <Route path="/sectormenu" element={<AdminOnly><></></AdminOnly>} />
-        <Route path="/sectormenu/:sectorname" element={<AdminOnly><></></AdminOnly>} />
-      </Routes>
+          {/* Protected Routes: */}
+          <Route path="/itemmenu" element={<AdminOnly><></></AdminOnly>} />
+          <Route path="/itemmenu/:itemid" element={<AdminOnly><></></AdminOnly>} />
+          <Route path="/managesectors" element={<AdminOnly><></></AdminOnly>} />
+          <Route path="/sectormenu" element={<AdminOnly><></></AdminOnly>} />
+          <Route path="/sectormenu/:sectorname" element={<AdminOnly><></></AdminOnly>} />
+        </Routes>
+      </div>
     </div>
   );
 }
