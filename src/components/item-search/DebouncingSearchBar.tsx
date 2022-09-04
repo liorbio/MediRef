@@ -19,7 +19,7 @@ const DebouncingSearchBar = ({ sector, department }: { sector: string, departmen
 
             // FETCH IN DEVELOPMENT VIA PROXYING
             // READ MORE HERE: https://create-react-app.dev/docs/proxying-api-requests-in-development/
-
+            console.log(`URL: /items?search=${searchVal}&sector=${sector}&department=${department}`)
             fetch(`/items?search=${searchVal}&sector=${sector}&department=${department}`)
                 .then((res) => res.json())
                 .then((jsonedRes) => dispatch(itemsActions.setItems(jsonedRes)));

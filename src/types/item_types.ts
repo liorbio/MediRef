@@ -1,5 +1,6 @@
-export type AbbreviatedItem = { name: string, cat: string };
+export type AbbreviatedItem = { _id: string, name: string, cat: string };
 export type Item = {
+    _id: string,
     name: string,
     cat: string,
     sector: string,

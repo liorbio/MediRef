@@ -13,7 +13,7 @@ const RightHeaderSide = ({ loggedInAsAdmin }: { loggedInAsAdmin: boolean }) => {
     return (
         <Routes>
                 {
-                    ["/login", "/itemmenu", "/items", "/managesectors", "/sectormenu"].map(path => <Route path={path} element={goBack} />)
+                    ["/login", "/itemmenu", "/items", "/managesectors", "/sectormenu"].map(path => <Route path={path} element={goBack} key={path} />)
                 }
                 <Route path="/" element={signInOut} />
         </Routes>

@@ -1,11 +1,14 @@
-const DepartmentSelection = ({ departments, handleSetDepartment }: { departments: string[], handleSetDepartment: (value: string) => void }) => {
+import { Department } from "../../types/sector_types";
+
+const DepartmentSelection = ({ departments, handleSetDepartment }: { departments: Department[], handleSetDepartment: (value: string) => void }) => {
     const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
         handleSetDepartment(event.target.value);
     }
     
     return (
         <select name="departments" id="departments" onChange={handleSelect}>
-            {departments.map(d => <option value={d}>{d}</option>)}
+            <option value="">בחר תחום...</option>
+            {departments.map(d => <option key={d._id} value={d.departmentName}>{d.departmentName}</option>)}
         </select>
     );
 };

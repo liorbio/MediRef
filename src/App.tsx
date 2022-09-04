@@ -1,7 +1,7 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import { get } from 'idb-keyval';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch } from './hooks/redux-hooks';
 import { authActions } from './store/auth-slice';
 import Header from './components/header/Header';
