@@ -1,0 +1,24 @@
+@import '../../css-variables/constants.css';
+
+.itemMenu {
+    display: flex;
+    flex-direction: column;
+    padding: 0 var(--gutterHorizontal);
+}
+.itemMenu * {
+    margin-bottom: 0.5rem;
+}
+.itemMenu h1 {
+    margin-top: 0.5rem;
+    font-size: 1.4rem;
+}
+.itemMenu input {
+    font-size: 1.1rem;
+}
+.itemMenu select {
+    font-size: 1.1rem;
+}
+.itemMenu textarea {
+    font-family: sans-serif;
+    font-size: 1.1rem;
+}

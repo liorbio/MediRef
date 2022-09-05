@@ -4,6 +4,7 @@ import ListItem from "./ListItem";
 import SearchMenu from "./SearchMenu";
 import classes from './HomePage.module.css';
 
+
 const HomePage = () => {
     const navigate = useNavigate();
     const items = useAppSelector(state => state.items.items);

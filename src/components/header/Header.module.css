@@ -12,6 +12,7 @@
 .navbar h1 {
     font-size: 1.0rem;
     margin: auto;
+    grid-column: 2;
 }
 .navbar span {
     margin: auto;

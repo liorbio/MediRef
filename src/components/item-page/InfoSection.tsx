@@ -4,7 +4,7 @@ const InfoSection = ({ title, elements }: { title: string, elements: Abbreviated
     return (
         <>
             <h2>{title}</h2>
-            {elements.map(m => <p>{`${m.cat} - ${m.name}`}</p>)}
+            {elements.map(m => <p key={m.cat}>{`${m.cat} - ${m.name}`}</p>)}
         </>   
     )
 };

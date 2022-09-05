@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import AdminOnly from "../authorization/AdminOnly";
 import BigButton from "../UI/BigButton";
 
 const NoItemFound = ({ cat }: { cat: string }) => {
@@ -11,7 +12,7 @@ const NoItemFound = ({ cat }: { cat: string }) => {
     return (
         <>
             <p>{`לא נמצא ערך עבור ${cat}`}</p>
-            <BigButton text="צור ערך" action={moveToCreatingItemPage} />
+            <AdminOnly><BigButton text="צור ערך" action={moveToCreatingItemPage} /></AdminOnly>
         </>
     )
 };

@@ -9,6 +9,7 @@ import ItemPage from './components/item-page/ItemPage';
 import AdminOnly from './components/authorization/AdminOnly';
 import HomePage from './components/item-search/HomePage';
 import LoginPage from './components/login/LoginPage';
+import ItemMenu from './components/item-menu/ItemMenu';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -28,13 +29,12 @@ function App() {
       <div className={classes.pushBodyDown}>
         <Routes>
           {/* Public Routes: */}
-          <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/items/:itemid" element={<ItemPage />} />
-
+          <Route path="/" element={<HomePage />} />
           {/* Protected Routes: */}
-          <Route path="/itemmenu" element={<AdminOnly><></></AdminOnly>} />
-          <Route path="/itemmenu/:itemid" element={<AdminOnly><></></AdminOnly>} />
+          <Route path="/itemmenu" element={<AdminOnly><ItemMenu /></AdminOnly>} />
+          <Route path="/itemmenu/:itemid" element={<AdminOnly><ItemMenu /></AdminOnly>} />
           <Route path="/managesectors" element={<AdminOnly><></></AdminOnly>} />
           <Route path="/sectormenu" element={<AdminOnly><></></AdminOnly>} />
           <Route path="/sectormenu/:sectorname" element={<AdminOnly><></></AdminOnly>} />

@@ -1,0 +1,25 @@
+@import '../../css-variables/constants.css';
+
+.itemPage {
+    text-align: right;
+    padding: 0 var(--gutterHorizontal);
+    padding-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+}
+.itemPage h1 {
+    font-size: 1.4rem;
+}
+.itemPage h2 {
+    font-size: 1.3rem;
+}
+.itemPage p {
+    text-indent: 1rem;
+}
+.itemPage * {
+    margin-top: 0;
+}
+.itemPage img {
+    width: 70vw;
+    align-self: center;
+}
