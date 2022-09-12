@@ -3,7 +3,7 @@ import { useAppSelector } from "../../hooks/redux-hooks";
 import ListItem from "./ListItem";
 import SearchMenu from "./SearchMenu";
 import classes from './HomePage.module.css';
-
+import LoadingSpinner from "../UI/LoadingSpinner";
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -17,6 +17,7 @@ const HomePage = () => {
         <>
             <SearchMenu />
             <div className={classes.listItemPusher}></div>
+            {items.length === 0 && <LoadingSpinner />}
             {items.map(i => <ListItem key={i._id} name={i.name} cat={i.cat} goToItemPage={goToItemPage} />)}
         </>
     )

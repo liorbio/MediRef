@@ -15,12 +15,15 @@
     font-size: 1.2rem;
     margin-top: 0.5rem;
     padding: var(--searchPadding);
-    height: var(--searchSelectHeight)
+    height: var(--searchSelectHeight);
+    border-style: solid;
 }
 .searchMenu input {
     font-size: 1.6rem;
     padding: var(--searchPadding);
-    height: var(--searchInputHeight)
+    height: var(--searchInputHeight);
+    border-style: solid;
+    border: 1px solid #999;
 }
 
 .listItemPusher {

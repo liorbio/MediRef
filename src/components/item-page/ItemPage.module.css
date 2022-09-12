@@ -13,13 +13,21 @@
 .itemPage h2 {
     font-size: 1.3rem;
 }
-.itemPage p {
+.itemPage h2:first-of-type {
+    margin-top: 1rem;
+}
+.itemPage p, a {
     text-indent: 1rem;
 }
+.itemPage a {
+    margin-block: 0.5rem;
+}
+
 .itemPage * {
     margin-top: 0;
 }
 .itemPage img {
     width: 70vw;
+    max-width: 400px;
     align-self: center;
 }

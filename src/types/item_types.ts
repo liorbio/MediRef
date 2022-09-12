@@ -1,4 +1,4 @@
-export type AbbreviatedItem = { _id: string, name: string, cat: string };
+export type AbbreviatedItem = { _id?: string, name: string, cat: string };
 export type Item = {
     _id: string,
     name: string,
@@ -8,6 +8,7 @@ export type Item = {
     catType: "מקט רגיל" | "מקט ערכה",
     description: string,
     imageLink?: string,
+    qaStandardLink?: string,
     models?: AbbreviatedItem[],
     accessories?: AbbreviatedItem[],
     consumables?: AbbreviatedItem[],

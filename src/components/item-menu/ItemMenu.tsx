@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { viewingActions } from '../../store/viewing-slice';
 import { AbbreviatedItem, Item } from '../../types/item_types';
@@ -8,27 +8,36 @@ import DepartmentSelection from '../item-search/DepartmentSelection';
 import SectorSelection from '../item-search/SectorSelection';
 import BigButton from '../UI/BigButton';
 import CatTypeSelection from './CatTypeSelection';
-import classes from './itemMenu.module.css';
+import InfoSectionMenu from './InfoSectionMenu';
+import classes from './ItemMenu.module.css';
+
+function vacateItemListIfEmpty(itemList: AbbreviatedItem[]) {
+    if (itemList.length === 1 && !itemList[0].cat && !itemList[0].name) {
+        return [];
+    }
+    return itemList;
+}
 
 const ItemMenu = () => {
     const params = useParams();
-    const [itemToEdit, setItemToEdit] = useState<null | Item>();
     const authToken = useAppSelector(state => state.auth.jwt);
     const [sectorsToChooseFrom, setSectorsToChooseFrom] = useState<Sector[]>([]);
     const dispatch = useAppDispatch();
-    const [name, setName] = useState(itemToEdit?.name ?? "");
-    const [cat, setCat] = useState(itemToEdit?.cat ?? "");
-    const [sector, setSector] = useState(itemToEdit?.sector ?? "");
-    const [department, setDepartment] = useState(itemToEdit?.department ?? "");
-    const [catType, setCatType] = useState(itemToEdit?.catType ?? "מקט רגיל");
-    const [description, setDescription] = useState(itemToEdit?.description ?? "");
-    const [imageLink, setImageLink] = useState(itemToEdit?.imageLink ?? "");
-    const [models, setModels] = useState<AbbreviatedItem[]>([]);
-    const [accessories, setAccessories] = useState<AbbreviatedItem[]>([]);
-    const [consumables, setConsumables] = useState<AbbreviatedItem[]>([]);
-    const [belongsToKits, setBelongsToKits] = useState<AbbreviatedItem[]>([]);
-    const [similarItems, setSimilarItems] = useState<AbbreviatedItem[]>([]);
-    const [kitItem, setKitItem] = useState<AbbreviatedItem[]>([]);
+    const navigate = useNavigate();
+    const [name, setName] = useState("");
+    const [cat, setCat] = useState("");
+    const [sector, setSector] = useState("");
+    const [department, setDepartment] = useState("");
+    const [catType, setCatType] = useState("מקט רגיל");
+    const [description, setDescription] = useState("");
+    const [imageLink, setImageLink] = useState("");
+    const [qaStandardLink, setQaStandardLink] = useState("");
+    const [models, setModels] = useState<AbbreviatedItem[]>([{ cat: "", name: "" }]);
+    const [accessories, setAccessories] = useState<AbbreviatedItem[]>([{ cat: "", name: "" }]);
+    const [consumables, setConsumables] = useState<AbbreviatedItem[]>([{ cat: "", name: "" }]);
+    const [belongsToKits, setBelongsToKits] = useState<AbbreviatedItem[]>([{ cat: "", name: "" }]);
+    const [similarItems, setSimilarItems] = useState<AbbreviatedItem[]>([{ cat: "", name: "" }]);
+    const [kitItem, setKitItem] = useState<AbbreviatedItem[]>([{ cat: "", name: "" }]);
 
     const itemDetails = {
         name: name,
@@ -38,6 +47,7 @@ const ItemMenu = () => {
         catType: catType,
         description: description,
         imageLink: imageLink,
+        qaStandardLink: qaStandardLink,
         models: models,
         accessories: accessories,
         consumables: consumables,
@@ -53,10 +63,7 @@ const ItemMenu = () => {
             });
             return await fetchedSectors.json();
         };
-        getSectors().then(s => {
-            setSectorsToChooseFrom(s)
-        }).catch(err => console.log(`Error fetching sectors: ${err}`));
-
+        
         if (params.itemid) {
             const getItem = async () => {
                 const fetchedItem = await fetch(`/items/${params.itemid}`, {
@@ -68,9 +75,30 @@ const ItemMenu = () => {
                 });
                 return await fetchedItem.json();
             };
-            getItem().then(i => {
-                setItemToEdit(i);
+            getSectors().then(s => {
+                setSectorsToChooseFrom(s);
+                return getItem();
+            }).then((i: Item) => {
+                setName(i.name);
+                setCat(i.cat);
+                setSector(i.sector);
+                setDepartment(i.department);
+                setCatType(i.catType);
+                setDescription(i.description);
+                if (i.imageLink) setImageLink(i.imageLink);
+                if (i.qaStandardLink) setQaStandardLink(i.qaStandardLink)
+                if (i.models && i.models.length > 0) setModels(i.models);
+                if (i.accessories && i.accessories.length > 0) setAccessories(i.accessories);
+                if (i.consumables && i.consumables.length > 0) setConsumables(i.consumables);
+                if (i.belongsToKits && i.belongsToKits.length > 0) setBelongsToKits(i.belongsToKits);
+                if (i.similarItems && i.similarItems.length > 0) setSimilarItems(i.similarItems);
+                if (i.kitItem && i.kitItem.length > 0) setKitItem(i.kitItem);
             }).catch(e => console.log(`Error fetching item details: ${e}`));
+        }
+        if (!params.itemid) {
+            getSectors().then(s => {
+                setSectorsToChooseFrom(s);
+            }).catch(err => console.log(`Error fetching sectors: ${err}`));
         }
     }, [params.itemid, authToken]);
 
@@ -91,12 +119,28 @@ const ItemMenu = () => {
         setDepartment(value);
         dispatch(viewingActions.changesAppliedToItem);
     }
-    const departmentsToChooseFrom = sector ? sectorsToChooseFrom.filter(s => s.sectorName === sector)[0].departments : [];
+    const departmentsToChooseFrom = (sector && sectorsToChooseFrom.length > 0) ? sectorsToChooseFrom.filter(s => s.sectorName === sector)[0].departments : [];
     const handleSetCatType = (catType: "מקט רגיל" | "מקט ערכה") => {
         setCatType(catType);
     }
     const handleSave = () => {
-        if (!itemToEdit) {
+        itemDetails.models = vacateItemListIfEmpty(itemDetails.models);
+        itemDetails.belongsToKits = vacateItemListIfEmpty(itemDetails.belongsToKits);
+        itemDetails.similarItems = vacateItemListIfEmpty(itemDetails.similarItems);
+        itemDetails.kitItem = vacateItemListIfEmpty(itemDetails.kitItem);
+        itemDetails.accessories = vacateItemListIfEmpty(itemDetails.accessories);
+        itemDetails.consumables = vacateItemListIfEmpty(itemDetails.consumables);
+
+        if (catType === "מקט ערכה") {
+            itemDetails.models = [];
+            itemDetails.belongsToKits = [];
+            itemDetails.similarItems = [];
+        }
+        if (catType === "מקט רגיל") {
+            itemDetails.kitItem = [];
+        }
+
+        if (!params.itemid) {
             fetch(`/items`, {
                 method: 'POST',
                 headers: {
@@ -105,10 +149,13 @@ const ItemMenu = () => {
                     'auth-token': authToken
                 },
                 body: JSON.stringify(itemDetails)
-            }).then((res) => console.log("success saving item"))
+            }).then((res) => {
+                console.log("success saving item");
+                navigate(-1);
+            })
             .catch((err) => console.log(`Error saving item: ${err}`));
         }
-        if (itemToEdit) {
+        if (params.itemid) {
             fetch(`/items/${params.itemid}`, {
                 method: 'PUT',
                 headers: {
@@ -117,23 +164,32 @@ const ItemMenu = () => {
                     'auth-token': authToken
                 },
                 body: JSON.stringify(itemDetails)
-            }).then((res) => console.log("success updating item"))
+            }).then((res) => {
+                console.log("success updating item");
+                navigate(-1);
+            })
             .catch((err) => console.log(`Error updating item: ${err}`));
         }
     }
 
     return (
         <div className={classes.itemMenu}>
-            <h1>{itemToEdit ? "עריכת פריט" : "הוספת פריט"}</h1>
+            <h1>{params.itemid ? "עריכת פריט" : "הוספת פריט"}</h1>
             <input type="text" placeholder='שם הפריט' value={name} onChange={(e) => handleInput(setName, e)} />
             <input type="text" placeholder='מק"ט' value={cat} onChange={(e) => handleInput(setCat, e)} />
-            <SectorSelection sectorNames={sectorsToChooseFrom.map(s => { return { sectorName: s.sectorName, _id: s._id } })} handleSetSector={handleSetSector} />
-            <DepartmentSelection departments={departmentsToChooseFrom} handleSetDepartment={handleSetDepartment} />
+            <SectorSelection sectorNames={sectorsToChooseFrom.map(s => { return { sectorName: s.sectorName, _id: s._id, key: new Date().toISOString() } })} handleSetSector={handleSetSector} priorChosenSector={sector} />
+            <DepartmentSelection departments={departmentsToChooseFrom} handleSetDepartment={handleSetDepartment} priorChosenDepartment={department} />
             <CatTypeSelection selectCatType={handleSetCatType} />
             <textarea value={description} onChange={handleDescription} placeholder="תיאור" />
             <input type="text" placeholder='קישור לתמונה' value={imageLink} onChange={(e) => handleInput(setImageLink, e)} />
-            
-            <BigButton text="שמור" action={handleSave} />
+            <input type="text" placeholder='קישור לתקן בחינה' value={qaStandardLink} onChange={(e) => handleInput(setQaStandardLink, e)} />
+            {catType === "מקט ערכה" && <InfoSectionMenu title="מכשיר" items={kitItem} setItems={setKitItem} />}
+            {catType === "מקט רגיל" && <InfoSectionMenu title="דגמים" items={models} setItems={setModels} />}
+            <InfoSectionMenu title="אביזרים" items={accessories} setItems={setAccessories} />
+            <InfoSectionMenu title="מתכלים" items={consumables} setItems={setConsumables} />
+            {catType === "מקט רגיל" && <InfoSectionMenu title="שייך לערכות" items={belongsToKits} setItems={setBelongsToKits} />}
+            {catType === "מקט רגיל" && <InfoSectionMenu title="פריטים דומים" items={similarItems} setItems={setSimilarItems} />}
+            <BigButton text="שמור" action={handleSave} overrideStyle={{ marginTop: "1rem" }} />
         </div>
     )
 };

@@ -1,0 +1,6 @@
+@import '../../css-variables/constants.css';
+
+.sectorButton {
+    width: calc(100vw - 2*var(--gutterHorizontal));
+    border: 1px solid #e1e1e1;
+}

@@ -6,6 +6,7 @@ import InfoSection from "./InfoSection";
 import NoItemFound from "./NoItemFound";
 import classes from './ItemPage.module.css';
 import { viewingActions } from "../../store/viewing-slice";
+import LoadingSpinner from "../UI/LoadingSpinner";
 
 const ItemPage = () => {
     const params = useParams();
@@ -37,18 +38,23 @@ const ItemPage = () => {
             setItemNotFound(true);
             setLoading(false);
         });
+
+        return () => {
+            setItem(null);
+        }
     }, [params.itemid, authToken, frontEndPrivilege, dispatch]);
 
     return (
         <>
-        {loading && <h1>LOADING</h1>}
+        {loading && <LoadingSpinner />}
         {!loading && itemNotFound && <NoItemFound cat={params.itemid as string} />}
         {!loading && item && <div className={classes.itemPage}>
             <h1>{item.name}</h1>
             <p>{`מק"ט: ${item.cat}`}</p>
             {item.description && <p>{item.description}</p>}
             {item.imageLink && <img crossOrigin="anonymous" src="../logo192.png" alt={item.name} />}
-            {item.models && item.models.length > 0 && <InfoSection title="דגמים" elements={item.models} />}
+            {(["admin","hanar"].includes(frontEndPrivilege) && item.qaStandardLink) && <a href={item.qaStandardLink}>לחץ להגעה לתקן בחינה</a>}
+            {item.models && item.models.length > 0 && <InfoSection title="דגמים" elements={item.models} unclickable={true} />}
             {item.kitItem && item.kitItem.length > 0 && <InfoSection title="מכשיר" elements={item.kitItem} />}
             {item.belongsToKits && item.belongsToKits.length > 0 && <InfoSection title="שייך לערכות" elements={item.belongsToKits} />}
             {item.similarItems && item.similarItems.length > 0 && <InfoSection title="פריטים דומים" elements={item.similarItems} />}
