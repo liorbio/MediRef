@@ -156,7 +156,7 @@ const ItemMenu = () => {
             .catch((err) => console.log(`Error saving item: ${err}`));
         }
         if (params.itemid) {
-            fetch(`/items/${params.itemid}`, {
+            fetch(encodeURI(`/items/${params.itemid}`), {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

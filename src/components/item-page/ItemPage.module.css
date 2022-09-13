@@ -7,8 +7,17 @@
     display: flex;
     flex-direction: column;
 }
+.itemPage header {
+    display: flex;
+    justify-content: space-between;
+    padding-inline: 0.5rem;
+}
+.itemPage header h6 {
+    margin-bottom: 0;
+}
 .itemPage h1 {
     font-size: 1.4rem;
+    margin-top: 0.5rem;
 }
 .itemPage h2 {
     font-size: 1.3rem;

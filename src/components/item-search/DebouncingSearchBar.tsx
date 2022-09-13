@@ -21,7 +21,7 @@ const DebouncingSearchBar = ({ sectorsLoaded, sector, department }: { sectorsLoa
 
                 // FETCH IN DEVELOPMENT VIA PROXYING
                 // READ MORE HERE: https://create-react-app.dev/docs/proxying-api-requests-in-development/
-                fetch(`/items?search=${searchVal}&sector=${sector}&department=${department}`)
+                fetch(encodeURI(`/items?search=${searchVal}&sector=${sector}&department=${department}`))
                     .then((res) => res.json())
                     .then((jsonedRes) => dispatch(itemsActions.setItems(jsonedRes)));
             }, DEBOUNCE_LAG);

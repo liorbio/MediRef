@@ -1,0 +1,28 @@
+@import '../../css-variables/constants.css';
+
+.wrapper {
+    padding-inline: var(--gutterHorizontal);
+}
+
+.sectorButton {
+    width: calc(100% - 2px - 0.5rem);
+    height: 3rem;
+    border: 1px solid #d1d1d1;
+    border-bottom: 0;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding-right: 0.5rem;
+}
+.plusButton {
+    width: calc(100% - 2px);
+    height: 3rem;
+    border: 1px solid #797979;
+    color: #797979;
+    background-color: #f1f1f1;
+    font-size: 1.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -49,6 +49,10 @@ const ItemPage = () => {
         {loading && <LoadingSpinner />}
         {!loading && itemNotFound && <NoItemFound cat={params.itemid as string} />}
         {!loading && item && <div className={classes.itemPage}>
+            <header>
+                <h6>{item.sector}</h6>
+                <h6>{item.department}</h6>
+            </header>
             <h1>{item.name}</h1>
             <p>{`מק"ט: ${item.cat}`}</p>
             {item.description && <p>{item.description}</p>}

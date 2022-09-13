@@ -1,6 +1,5 @@
-import { useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
+import { useAppDispatch } from "../../hooks/redux-hooks";
 import { authActions } from "../../store/auth-slice";
 import GoBack from "./GoBack";
 

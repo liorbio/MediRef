@@ -17,6 +17,7 @@ const LeftHeaderSide = () => {
             <Route path="items/*" element={<AdminOnly><span onClick={() => navigate(`itemmenu/${currentCat}`)}>ערוך</span></AdminOnly>} />
             <Route path="itemmenu" element={<></>} />
             <Route path="itemmenu/*" element={<></>} />
+            <Route path="managesectors" element={<></>} />
         </Routes>
     )
 };

@@ -10,6 +10,7 @@ import AdminOnly from './components/authorization/AdminOnly';
 import HomePage from './components/item-search/HomePage';
 import LoginPage from './components/login/LoginPage';
 import ItemMenu from './components/item-menu/ItemMenu';
+import SectorManagement from './components/sector-management/SectorManagement';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -35,7 +36,7 @@ function App() {
           {/* Protected Routes: */}
           <Route path="/itemmenu" element={<AdminOnly><ItemMenu /></AdminOnly>} />
           <Route path="/itemmenu/:itemid" element={<AdminOnly><ItemMenu /></AdminOnly>} />
-          <Route path="/managesectors" element={<AdminOnly><></></AdminOnly>} />
+          <Route path="/managesectors" element={<AdminOnly><SectorManagement /></AdminOnly>} />
           <Route path="/sectormenu" element={<AdminOnly><></></AdminOnly>} />
           <Route path="/sectormenu/:sectorname" element={<AdminOnly><></></AdminOnly>} />
         </Routes>
