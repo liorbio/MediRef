@@ -2,6 +2,10 @@
 
 .wrapper {
     padding-inline: var(--gutterHorizontal);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: var(--gutterHorizontal);
 }
 
 .sectorButton {
@@ -25,4 +29,39 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.wrapper input {
+    --padding: 10px;
+    width: calc(100% - 2px - 2*var(--padding));
+    font-size: 1.3rem;
+    padding: var(--padding);
+    border-style: solid;
+    border: 1px solid #d1d1d1;
+    border-bottom: 0;
+}
+.wrapper input:first-of-type {
+    border-bottom: 1px solid #d1d1d1;
+}
+
+.checkbox {
+    display: flex;
+    width: calc(100%);
+    justify-content: start;
+}
+.checkbox input, label {
+    width: auto;
+    margin: 1rem;
+}
+.checkbox label {
+    margin-right: 0;
+}
+
+.returnButtonCover {
+    position: fixed;
+    z-index: 9;
+    height: var(--navbarHeight);
+    width: 30vw;
+    top: 0;
+    right: 0;
 }

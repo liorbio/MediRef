@@ -29,6 +29,10 @@ const LoginPage = () => {
             }).then((res) => res.json()).then((res) => {
                 dispatch(authActions.setJwtUponLogin(res.authToken));
                 dispatch(authActions.setFrontEndPrivilegeUponLogin(res.frontEndPrivilege));
+                setTimeout(() => {
+                    dispatch(authActions.clearFrontEndPrivilege());
+                    dispatch(authActions.clearJwt());
+                  }, res.autoLogoutTime*60*60*1000);
             }).catch((err) => console.log(`Error logging in: ${err}`));
         navigate('/');
     }

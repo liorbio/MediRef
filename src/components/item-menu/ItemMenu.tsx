@@ -12,10 +12,7 @@ import InfoSectionMenu from './InfoSectionMenu';
 import classes from './ItemMenu.module.css';
 
 function vacateItemListIfEmpty(itemList: AbbreviatedItem[]) {
-    if (itemList.length === 1 && !itemList[0].cat && !itemList[0].name) {
-        return [];
-    }
-    return itemList;
+    return itemList.filter(i => i.cat !== "" || i.name !== "");
 }
 
 const ItemMenu = () => {
@@ -104,21 +101,22 @@ const ItemMenu = () => {
 
     const handleInput = (setFunc: React.Dispatch<React.SetStateAction<string>>, event: ChangeEvent<HTMLInputElement>) => {
         setFunc(event.target.value);
-        dispatch(viewingActions.changesAppliedToItem);
+        dispatch(viewingActions.changesAppliedToItem(true));
     }
     const handleDescription = (event: ChangeEvent<HTMLTextAreaElement>) => {
         setDescription(event.target.value);
-        dispatch(viewingActions.changesAppliedToItem);
+        dispatch(viewingActions.changesAppliedToItem(true));
     }
     const handleSetSector = (value: string) => {
         setSector(value);
         setDepartment("");
-        dispatch(viewingActions.changesAppliedToItem);
+        dispatch(viewingActions.changesAppliedToItem(true));
     }
     const handleSetDepartment = (value: string) => {
         setDepartment(value);
-        dispatch(viewingActions.changesAppliedToItem);
+        dispatch(viewingActions.changesAppliedToItem(true));
     }
+    const sectorNames = sectorsToChooseFrom.map(s => s.sectorName);
     const departmentsToChooseFrom = (sector && sectorsToChooseFrom.length > 0) ? sectorsToChooseFrom.filter(s => s.sectorName === sector)[0].departments : [];
     const handleSetCatType = (catType: "מקט רגיל" | "מקט ערכה") => {
         setCatType(catType);
@@ -140,7 +138,13 @@ const ItemMenu = () => {
             itemDetails.kitItem = [];
         }
 
-        if (!params.itemid) {
+        if (!itemDetails.name || !itemDetails.cat || !itemDetails.sector || !itemDetails.department) {
+            // if the required fields of the Item mongo schema are not filled then don't save
+            console.log("Please make sure to enter a name, catalog number, sector and department");
+            return;
+        }
+
+        if (!params.itemid) { // creating a new item
             fetch(`/items`, {
                 method: 'POST',
                 headers: {
@@ -151,11 +155,12 @@ const ItemMenu = () => {
                 body: JSON.stringify(itemDetails)
             }).then((res) => {
                 console.log("success saving item");
+                dispatch(viewingActions.changesAppliedToItem(false));
                 navigate(-1);
             })
             .catch((err) => console.log(`Error saving item: ${err}`));
         }
-        if (params.itemid) {
+        if (params.itemid) { // editing existing iten
             fetch(encodeURI(`/items/${params.itemid}`), {
                 method: 'PUT',
                 headers: {
@@ -166,6 +171,7 @@ const ItemMenu = () => {
                 body: JSON.stringify(itemDetails)
             }).then((res) => {
                 console.log("success updating item");
+                dispatch(viewingActions.changesAppliedToItem(false));
                 navigate(-1);
             })
             .catch((err) => console.log(`Error updating item: ${err}`));
@@ -177,7 +183,7 @@ const ItemMenu = () => {
             <h1>{params.itemid ? "עריכת פריט" : "הוספת פריט"}</h1>
             <input type="text" placeholder='שם הפריט' value={name} onChange={(e) => handleInput(setName, e)} />
             <input type="text" placeholder='מק"ט' value={cat} onChange={(e) => handleInput(setCat, e)} />
-            <SectorSelection sectorNames={sectorsToChooseFrom.map(s => { return { sectorName: s.sectorName, _id: s._id, key: new Date().toISOString() } })} handleSetSector={handleSetSector} priorChosenSector={sector} />
+            <SectorSelection sectorNames={sectorNames} handleSetSector={handleSetSector} priorChosenSector={sector} />
             <DepartmentSelection departments={departmentsToChooseFrom} handleSetDepartment={handleSetDepartment} priorChosenDepartment={department} />
             <CatTypeSelection selectCatType={handleSetCatType} />
             <textarea value={description} onChange={handleDescription} placeholder="תיאור" />

@@ -1,5 +1,5 @@
 import classes from './App.module.css';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import { get } from 'idb-keyval';
 import { useEffect } from 'react';
 import { useAppDispatch } from './hooks/redux-hooks';
@@ -11,9 +11,11 @@ import HomePage from './components/item-search/HomePage';
 import LoginPage from './components/login/LoginPage';
 import ItemMenu from './components/item-menu/ItemMenu';
 import SectorManagement from './components/sector-management/SectorManagement';
+import SectorMenu from './components/sector-management/SectorMenu';
 
 function App() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     get('jwt').then((val) => {
@@ -37,8 +39,7 @@ function App() {
           <Route path="/itemmenu" element={<AdminOnly><ItemMenu /></AdminOnly>} />
           <Route path="/itemmenu/:itemid" element={<AdminOnly><ItemMenu /></AdminOnly>} />
           <Route path="/managesectors" element={<AdminOnly><SectorManagement /></AdminOnly>} />
-          <Route path="/sectormenu" element={<AdminOnly><></></AdminOnly>} />
-          <Route path="/sectormenu/:sectorname" element={<AdminOnly><></></AdminOnly>} />
+          <Route path="/sectormenu" element={<AdminOnly><SectorMenu exit={() => navigate(-1)} /></AdminOnly>} />
         </Routes>
       </div>
     </div>

@@ -41,6 +41,7 @@ const ItemPage = () => {
 
         return () => {
             setItem(null);
+            setItemNotFound(false);
         }
     }, [params.itemid, authToken, frontEndPrivilege, dispatch]);
 

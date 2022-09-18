@@ -4,12 +4,14 @@ import DebouncingSearchBar from "./DebouncingSearchBar";
 import DepartmentSelection from "./DepartmentSelection";
 import SectorSelection from "./SectorSelection";
 import classes from './HomePage.module.css';
-import { useAppSelector } from "../../hooks/redux-hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
+import { viewingActions } from "../../store/viewing-slice";
 
 const SearchMenu = () => {
+    const dispatch = useAppDispatch();
     const [sectors, setSectors] = useState<Sector[]>([]);
-    const [selectedSector, setSelectedSector] = useState("");
-    const [selectedDepartment, setSelectedDepartment] = useState("");
+    const selectedSector = useAppSelector(state => state.viewing.searching.sector);
+    const selectedDepartment = useAppSelector(state => state.viewing.searching.department);
     const authToken = useAppSelector(state => state.auth.jwt);
 
     useEffect(() => {
@@ -24,12 +26,15 @@ const SearchMenu = () => {
     }, [authToken]);
 
     const handleSetSector = (value: string) => {
-        setSelectedSector(value);
-        setSelectedDepartment("");
+        dispatch(viewingActions.changeSearchCriteria({ sector: value, department: "" }));
+        // setSelectedSector(value);
+        // setSelectedDepartment("");
     }
     const handleSetDepartment = (value: string) => {
-        setSelectedDepartment(value);
+        dispatch(viewingActions.changeSearchCriteria({ department: value }));
+        // setSelectedDepartment(value);
     }
+    const sectorNames = sectors.map(s => s.sectorName);
     const departmentsToChooseFrom = selectedSector ? sectors.filter(s => s.sectorName === selectedSector)[0].departments : [];
     
     return (
@@ -37,7 +42,7 @@ const SearchMenu = () => {
             <DebouncingSearchBar sectorsLoaded={!!sectors} sector={selectedSector} department={selectedDepartment} />
             {!sectors && <>{/* LOADING SPINNER OR SHINING RECTANGLES */}</>}
             {sectors && <>
-                <SectorSelection sectorNames={sectors.map(s => { return { sectorName: s.sectorName, _id: s._id } })} handleSetSector={handleSetSector} />
+                <SectorSelection sectorNames={sectorNames} handleSetSector={handleSetSector} />
                 <DepartmentSelection departments={departmentsToChooseFrom} handleSetDepartment={handleSetDepartment} />
             </>}
         </div>

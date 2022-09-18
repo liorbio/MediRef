@@ -27,7 +27,7 @@ const authSlice = createSlice({
         },
         clearFrontEndPrivilege(state) {
             state.frontEndPrivilege = "public";
-            set('front-end-privilege', "public").then(() => console.log("Saved front-end-privilege as public in localStorage")).catch((err) => console.log(`Error saving front-end-privilege as public in localStorage: ${err}`));
+            set('front-end-privilege', "public").then(() => console.log('frontEndPrivilege returned to "public"')).catch((err) => console.log(`Error saving front-end-privilege as public in localStorage: ${err}`));
         }
     }
 });

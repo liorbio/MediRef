@@ -1,16 +1,17 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
 import { itemsActions } from "../../store/item-slice";
+import { viewingActions } from "../../store/viewing-slice";
 
 const DEBOUNCE_LAG = 800;
 
 const DebouncingSearchBar = ({ sectorsLoaded, sector, department }: { sectorsLoaded: boolean, sector: string, department: string }) => {
     const dispatch = useAppDispatch();
     const noItemsLoaded = useAppSelector(state => state.items.items.length === 0);
-    const [searchVal, setSearchVal] = useState("");
+    const searchVal = useAppSelector(state => state.viewing.searching.searchVal);
 
     const handleWrite = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearchVal(event.currentTarget.value);
+        dispatch(viewingActions.changeSearchCriteria({ searchVal: event.currentTarget.value }));
     };
 
     // Send ajax requests only upon changing the searchVal

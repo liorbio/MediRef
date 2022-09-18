@@ -1,10 +1,11 @@
 export type Department = {
     departmentName: string,
-    _id: string
+    _id?: string
 };
 
 export type Sector = {
-    _id: string,
+    _id?: string,
     sectorName: string,
-    departments: Department[]
+    departments: Department[],
+    visibleToPublic: boolean
 };

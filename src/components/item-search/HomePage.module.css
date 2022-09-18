@@ -52,3 +52,10 @@
     margin: 0;
     margin-bottom: 0.5rem;
 }
+
+.itemsWrapper {
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - var(--navbarHeight) - var(--searchInputHeight) - 2*var(--searchSelectHeight) - 6*var(--searchPadding) - 2*0.5rem);
+}

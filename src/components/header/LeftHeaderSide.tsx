@@ -18,6 +18,7 @@ const LeftHeaderSide = () => {
             <Route path="itemmenu" element={<></>} />
             <Route path="itemmenu/*" element={<></>} />
             <Route path="managesectors" element={<></>} />
+            <Route path="sectormenu" element={<></>} />
         </Routes>
     )
 };
