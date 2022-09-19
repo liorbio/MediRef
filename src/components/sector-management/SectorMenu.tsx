@@ -154,7 +154,7 @@ const SectorMenu = ({ exit, sector, reload }: { exit: () => void, sector?: Secto
                 return <input key={`${idx.toString()}+z`} type="text" placeholder="שם תחום" value={d.departmentName} onChange={(event) => handleDepartmentChangeByIndex(idx, event)} onBlur={deleteUponBlur} />
             })}
             <div className={classes.plusButton} onClick={addInput}>+</div>
-            <BigButton text="שמור" action={handleSave} overrideStyle={{ marginTop: "1rem" }} />
+            <BigButton text="שמור" action={handleSave} overrideStyle={{ marginTop: "3rem" }} />
             {sector && <BigButton text="מחיקת מדור" action={triggerWarningBeforeDeletion} overrideStyle={{ marginTop: "1rem", backgroundColor: "#CE1F1F" }} />}
             {warningBeforeDeletion && <AreYouSure text="באמת למחוק מדור?" leftText='מחק' leftAction={handleDeleteSector} rightText="אל תמחק" rightAction={() => setWarningBeforeDeletion(false)} />}
         </div>

@@ -7,8 +7,8 @@ const LeftHeaderSide = () => {
     const currentCat = useAppSelector(state => state.viewing.itemManagement.currentCat);
 
     const addItemAndManageSectors = <>
-        <span onClick={() => navigate('/itemmenu')}>+</span>
-        <span onClick={() => navigate('/managesectors')}>⋮</span>
+        <span onClick={() => navigate('/itemmenu')} style={{ fontWeight: 800, lineHeight: 0 }}>+</span>
+        <span onClick={() => navigate('/managesectors')} style={{ fontWeight: 800, lineHeight: 0 }}>⋮</span>
     </>;
 
     return (

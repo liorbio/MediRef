@@ -9,6 +9,7 @@ const RightHeaderSide = ({ loggedInAsAdmin }: { loggedInAsAdmin: boolean }) => {
 
     const handleLogout = () => {
         dispatch(authActions.clearAuthStateUponLogout());
+        navigate(0);
     };
 
     const signInOut = loggedInAsAdmin ? <span onClick={handleLogout}>יציאה</span> : <span onClick={() => navigate('/login')}>כניסה</span>;

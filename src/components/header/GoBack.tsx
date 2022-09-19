@@ -16,6 +16,7 @@ const GoBack = () => {
             setShowAreYouSure(true);
         } else {
             navigate(-1);
+            dispatch(viewingActions.emptySearchCriteria());
         }
     }
     const goBackAnyway = () => {

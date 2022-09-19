@@ -9,7 +9,7 @@ const Header = () => {
     return (
         <nav className={classes.navbar}>
             <RightHeaderSide loggedInAsAdmin={loggedInAsAdmin} />
-            <h1>MediRef</h1>
+            <h1>hanaref</h1>
             {loggedInAsAdmin && <LeftHeaderSide />}
         </nav>
     )

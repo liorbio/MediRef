@@ -1,16 +1,18 @@
+@import '../../css-variables/constants.css';
+
 .navbar {
     display: grid;
     grid-template-columns: 5rem 1fr 2rem 2rem;
-    background-color: #f5f5f5;
+    background-color: #dff3ec;
     position: fixed;
     top: 0;
     z-index: 2;
-    height: 2rem;
+    height: var(--navbarHeight);
     width: 100vw;
 }
 
 .navbar h1 {
-    font-size: 1.0rem;
+    font-size: 1.3rem;
     margin: auto;
     grid-column: 2;
 }

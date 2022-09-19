@@ -12,4 +12,6 @@
 .loginForm input {
     height: var(--searchInputHeight);
     margin-bottom: 0.5rem;
+    border-style: solid;
+    border: 1px solid #c1c1c1;
 }
