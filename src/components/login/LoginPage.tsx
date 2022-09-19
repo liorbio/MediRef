@@ -27,12 +27,11 @@ const LoginPage = () => {
                 method: 'POST',
                 body: JSON.stringify({ username: usernameInput, password: passwordInput })
             }).then((res) => res.json()).then((res) => {
-                dispatch(authActions.setJwtUponLogin(res.authToken));
-                dispatch(authActions.setFrontEndPrivilegeUponLogin(res.frontEndPrivilege));
+                const { authToken, frontEndPrivilege, jwtExpiryDate } = res;
+                dispatch(authActions.setAuthStateUponLogin({ jwt: authToken, frontEndPrivilege: frontEndPrivilege, jwtExpiryDate: jwtExpiryDate }));
                 setTimeout(() => {
-                    dispatch(authActions.clearFrontEndPrivilege());
-                    dispatch(authActions.clearJwt());
-                  }, res.autoLogoutTime*60*60*1000);
+                    dispatch(authActions.clearAuthStateUponLogout());
+                  }, jwtExpiryDate - new Date().getTime());
             }).catch((err) => console.log(`Error logging in: ${err}`));
         navigate('/');
     }

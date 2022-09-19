@@ -1,33 +1,32 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { set } from 'idb-keyval';
 
-const initialAuthState = { jwt: "", frontEndPrivilege: "public" };
+const initialAuthState = { jwt: "", frontEndPrivilege: "public", jwtExpiryDate: 0 };
 
 const authSlice = createSlice({
     name: 'auth',
     initialState: initialAuthState,
     reducers: {
-        setJwtUponLogin(state, action: PayloadAction<string>) {
-            state.jwt = action.payload;
-            set('jwt', state.jwt).then(() => console.log("Saved JWT in localStorage")).catch((err) => console.log(`Error saving JWT in localStorage: ${err}`));
+        setAuthStateUponLogin(state, action: PayloadAction<{ jwt: string, frontEndPrivilege: string, jwtExpiryDate: number }>) {
+            const { jwt, frontEndPrivilege, jwtExpiryDate } = action.payload;
+            state.jwt = jwt;
+            state.frontEndPrivilege = frontEndPrivilege;
+            state.jwtExpiryDate = jwtExpiryDate;
+            Promise.all([set('hanaref-jwt', state.jwt), set('hanaref-front-end-privilege', state.frontEndPrivilege), set('hanaref-jwt-expiry-date', state.jwtExpiryDate)])
+                .then((values) => console.log('Saved auth state in localStorage'))
+                .catch((err) => console.log(`Error saving auth state in localStorage: ${err}`));
         },
-        consumeJwtFromIDB(state, action: PayloadAction<string>) {
-            state.jwt = action.payload;
+        clearAuthStateUponLogout(state) {
+            state = initialAuthState;
+            Promise.all([set('hanaref-jwt', ""), set('hanaref-front-end-privilege', "public"), set('hanaref-jwt-expiry-date', 0)])
+                .then((values) => console.log('Cleared auth state from localStorage'))
+                .catch((err) => console.log(`Error clearing auth state from localStorage: ${err}`));
         },
-        clearJwt(state) {
-            state.jwt = "";
-            set('jwt', "").then(() => console.log("Cleared JWT from localStorage")).catch((err) => console.log(`Error clearing JWT from localStorage: ${err}`));
-        },
-        setFrontEndPrivilegeUponLogin(state, action: PayloadAction<string>) {
-            state.frontEndPrivilege = action.payload;
-            set('front-end-privilege', state.frontEndPrivilege).then(() => console.log("Saved front-end-privilege in localStorage")).catch((err) => console.log(`Error saving front-end-privilege in localStorage: ${err}`));
-        },
-        consumeFrontEndPrivilegeFromIDB(state, action: PayloadAction<string>) {
-            state.frontEndPrivilege = action.payload;
-        },
-        clearFrontEndPrivilege(state) {
-            state.frontEndPrivilege = "public";
-            set('front-end-privilege', "public").then(() => console.log('frontEndPrivilege returned to "public"')).catch((err) => console.log(`Error saving front-end-privilege as public in localStorage: ${err}`));
+        consumeAuthStateFromIDB(state, action: PayloadAction<{ jwt: string, frontEndPrivilege: string, jwtExpiryDate: number }>) {
+            const { jwt, frontEndPrivilege, jwtExpiryDate } = action.payload;
+            state.jwt = jwt;
+            state.frontEndPrivilege = frontEndPrivilege;
+            state.jwtExpiryDate = jwtExpiryDate;
         }
     }
 });

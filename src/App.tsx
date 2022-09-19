@@ -18,12 +18,26 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    get('jwt').then((val) => {
-      if (val) dispatch(authActions.consumeJwtFromIDB(val));
-    });
-    get('front-end-privilege').then((val) => {
-      if (val) dispatch(authActions.consumeFrontEndPrivilegeFromIDB(val));
-    });
+    let autoLogoutTimer: NodeJS.Timeout;
+
+    Promise.all([get('hanaref-jwt'), get('hanaref-front-end-privilege'), get('hanaref-jwt-expiry-date')])
+      .then((values) => {
+        if (values.every(v => !!v)) {
+          const [jwt, frontEndPrivilege, jwtExpiryDate] = values;
+          if (new Date().getTime() >= jwtExpiryDate) {
+            dispatch(authActions.clearAuthStateUponLogout());
+          } else {
+            dispatch(authActions.consumeAuthStateFromIDB({ jwt: jwt, frontEndPrivilege: frontEndPrivilege, jwtExpiryDate: jwtExpiryDate }));
+            autoLogoutTimer = setTimeout(() => {
+              dispatch(authActions.clearAuthStateUponLogout());
+            }, jwtExpiryDate - new Date().getTime());
+          }
+        }
+      }).catch((err) => console.log(`Error consuming auth state from IDB: ${err}`));
+
+    return () => {
+      clearTimeout(autoLogoutTimer);
+    }
   }, [dispatch]);
 
   return (

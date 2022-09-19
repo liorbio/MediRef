@@ -72,7 +72,8 @@ const SectorMenu = ({ exit, sector, reload }: { exit: () => void, sector?: Secto
                 .then((res) => {
                     console.log('Success updating sector');
                     dispatch(viewingActions.changesAppliedToSector(false))
-                    navigate(-1);
+                    exit();
+                    reload!();
                 })
                 .catch((err) => console.log(`Error updating sector: ${err}`));
         } else { // if creating a new sector
@@ -154,7 +155,7 @@ const SectorMenu = ({ exit, sector, reload }: { exit: () => void, sector?: Secto
             })}
             <div className={classes.plusButton} onClick={addInput}>+</div>
             <BigButton text="שמור" action={handleSave} overrideStyle={{ marginTop: "1rem" }} />
-            {sector && <BigButton text="מחיקת מדור" action={triggerWarningBeforeDeletion} overrideStyle={{ marginTop: "1rem", backgroundColor: "red" }} />}
+            {sector && <BigButton text="מחיקת מדור" action={triggerWarningBeforeDeletion} overrideStyle={{ marginTop: "1rem", backgroundColor: "#CE1F1F" }} />}
             {warningBeforeDeletion && <AreYouSure text="באמת למחוק מדור?" leftText='מחק' leftAction={handleDeleteSector} rightText="אל תמחק" rightAction={() => setWarningBeforeDeletion(false)} />}
         </div>
     )

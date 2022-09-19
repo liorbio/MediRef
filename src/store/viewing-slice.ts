@@ -35,10 +35,10 @@ const viewingSlice = createSlice({
             state.itemManagement.changesApplied = action.payload;
         },
         changeSearchCriteria(state, action: PayloadAction<{ searchVal?: string, sector?: string, department?: string, page?: number }>) {
-            if (action.payload.searchVal) state.searching.searchVal = action.payload.searchVal;
-            if (action.payload.sector) state.searching.sector = action.payload.sector;
-            if (action.payload.department) state.searching.department = action.payload.department;
-            if (action.payload.page) state.searching.page = action.payload.page;
+            if (typeof action.payload.searchVal === "string") state.searching.searchVal = action.payload.searchVal;
+            if (typeof action.payload.sector === "string") state.searching.sector = action.payload.sector;
+            if (typeof action.payload.department === "string") state.searching.department = action.payload.department;
+            if (typeof action.payload.page === "number") state.searching.page = action.payload.page;
         },
         emptySearchCriteria(state) {
             state.searching = initialViewState.searching;

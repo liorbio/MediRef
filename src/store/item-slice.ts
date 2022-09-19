@@ -3,7 +3,7 @@ import { AbbreviatedItem } from "../types/item_types";
 
 type ItemList = AbbreviatedItem[];
 
-const initialItems: { items: ItemList } = { items: [] };
+const initialItems: { items: ItemList, searchComplete: boolean } = { items: [], searchComplete: false };
 
 const itemsSlice = createSlice({
     name: 'items',
@@ -17,6 +17,9 @@ const itemsSlice = createSlice({
         },
         clearItemList(state) {
             state.items = [];
+        },
+        declareSearchComplete(state, action: PayloadAction<boolean>) {
+            state.searchComplete = action.payload;
         }
     }
 });
