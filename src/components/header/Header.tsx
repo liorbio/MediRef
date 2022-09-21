@@ -8,7 +8,7 @@ const Header = () => {
 
     return (
         <nav className={classes.navbar}>
-            <RightHeaderSide loggedIn={!!loggedInAs} />
+            <RightHeaderSide loggedIn={loggedInAs !== "public"} />
             <h1>hanaref</h1>
             {loggedInAs === "admin" && <LeftHeaderSide />}
         </nav>

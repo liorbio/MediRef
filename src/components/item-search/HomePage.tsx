@@ -16,6 +16,7 @@ const HomePage = () => {
     const searchComplete = useAppSelector(state => state.items.searchComplete);
     const { searchVal, sector, department, page, blockScrollSearch } = useAppSelector(state => state.viewing.searching); 
     const authToken = useAppSelector(state => state.auth.jwt);
+    const isAdmin = useAppSelector(state => state.auth.frontEndPrivilege === "admin");
 
     const goToItemPage = (cat: string) => {
         navigate(`/items/${cat}`);
@@ -53,7 +54,7 @@ const HomePage = () => {
             {!searchComplete && <LoadingSpinner />}
             {searchComplete && items.length === 0 && <></>}
             <div className={classes.itemsWrapper} onScroll={handleScroll}>
-                {items.map(i => <ListItem key={i._id} name={i.name} cat={i.cat} goToItemPage={goToItemPage} />)}
+                {items.map(i => <ListItem key={i._id} name={i.name} cat={i.cat} shouldBeColored={i.imageLink === "" && isAdmin} goToItemPage={goToItemPage} />)}
             </div>
         </>
     )

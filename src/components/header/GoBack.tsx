@@ -5,7 +5,7 @@ import { viewingActions } from "../../store/viewing-slice";
 import AreYouSure from "../UI/AreYouSure";
 
 
-const GoBack = () => {
+const GoBack = ({ goHome }: { goHome?: boolean }) => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const changeDetected = useAppSelector(state => state.viewing.itemManagement.changesApplied);
@@ -15,12 +15,20 @@ const GoBack = () => {
         if (changeDetected) {
             setShowAreYouSure(true);
         } else {
-            navigate(-1);
+            if (goHome) {
+                navigate("/");
+            } else {
+                navigate(-1);
+            }
             dispatch(viewingActions.emptySearchCriteria());
         }
     }
     const goBackAnyway = () => {
-        navigate(-1);
+        if (goHome) {
+            navigate("/");
+        } else {
+            navigate(-1);
+        }
         setShowAreYouSure(false);
         dispatch(viewingActions.changesAppliedToItem(false));
         dispatch(viewingActions.changesAppliedToSector(false));

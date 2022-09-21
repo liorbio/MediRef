@@ -23,6 +23,7 @@ const RightHeaderSide = ({ loggedIn }: { loggedIn: boolean }) => {
                     {
                         ["/login", "/itemmenu", "/itemmenu/*", "/items/*", "/managesectors", "/sectormenu"].map(path => <Route path={path} element={<GoBack />} key={path} />)
                     }
+                    <Route path="/itemnotfound/*" element={<GoBack goHome={true} />} />
                     <Route path="/" element={signInOut} />
             </Routes>
             {areYouSureLogout && <AreYouSure text="לצאת מהמשתמש?" leftText="צא" leftAction={handleLogout} rightText="לא" rightAction={() => setAreYouSureLogout(false)} />}

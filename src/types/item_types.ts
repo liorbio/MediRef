@@ -1,4 +1,4 @@
-export type AbbreviatedItem = { _id?: string, name: string, cat: string };
+export type AbbreviatedItem = { _id?: string, name: string, cat: string, imageLink?: string };
 export type Item = {
     _id: string,
     name: string,
