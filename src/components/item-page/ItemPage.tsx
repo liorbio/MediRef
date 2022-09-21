@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
 import { Item } from "../../types/item_types";
 import InfoSection from "./InfoSection";
-import NoItemFound from "./NoItemFound";
 import classes from './ItemPage.module.css';
 import { viewingActions } from "../../store/viewing-slice";
 import LoadingSpinner from "../UI/LoadingSpinner";
+import { backendFirebaseUri } from "../../backend-variables/address";
 
 const ItemPage = () => {
     const params = useParams();
     const authToken = useAppSelector(state => state.auth.jwt);
     const [item, setItem] = useState<Item | null>(null);
-    const [itemNotFound, setItemNotFound] = useState(false);
     const [loading, setLoading] = useState(true);
     const frontEndPrivilege = useAppSelector(state => state.auth.frontEndPrivilege);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const getItem = async () => {
-            const fetchedItem = await fetch(`/items/${params.itemid}`, {
+            const fetchedItem = await fetch(`${backendFirebaseUri}/items/${params.itemid}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -35,20 +35,18 @@ const ItemPage = () => {
                 dispatch(viewingActions.manageItem(params.itemid as string));
             }
         }).catch(e => {
-            setItemNotFound(true);
             setLoading(false);
+            navigate(`/itemnotfound/${params.itemid}`);
         });
 
         return () => {
             setItem(null);
-            setItemNotFound(false);
         }
-    }, [params.itemid, authToken, frontEndPrivilege, dispatch]);
+    }, [params.itemid, authToken, frontEndPrivilege, dispatch, navigate]);
 
     return (
         <>
         {loading && <LoadingSpinner />}
-        {!loading && itemNotFound && <NoItemFound cat={params.itemid as string} />}
         {!loading && item && <div className={classes.itemPage}>
             <header>
                 <h6>{item.sector}</h6>
@@ -57,7 +55,7 @@ const ItemPage = () => {
             <h1>{item.name}</h1>
             <p>{`מק"ט: ${item.cat}`}</p>
             {item.description && <p>{item.description}</p>}
-            {item.imageLink && <img crossOrigin="anonymous" src="../logo192.png" alt={item.name} />}
+            {item.imageLink && <img crossOrigin="anonymous" src={item.imageLink} alt={item.name} />}
             {(["admin","hanar"].includes(frontEndPrivilege) && item.qaStandardLink) && <a href={item.qaStandardLink}>לחץ להגעה לתקן בחינה</a>}
             {item.models && item.models.length > 0 && <InfoSection title="דגמים" elements={item.models} unclickable={true} />}
             {item.kitItem && item.kitItem.length > 0 && <InfoSection title="מכשיר" elements={item.kitItem} />}

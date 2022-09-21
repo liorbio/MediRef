@@ -1,17 +1,18 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AdminOnly from "../authorization/AdminOnly";
 import BigButton from "../UI/BigButton";
 
-const NoItemFound = ({ cat }: { cat: string }) => {
+const NoItemFound = () => {
     const navigate = useNavigate();
+    const params = useParams();
 
     const moveToCreatingItemPage = () => {
-        navigate(`/itemmenu/${cat}`);
+        navigate(`/itemmenu/newitem/${params.itemid}`);
     }
 
     return (
         <>
-            <p>{`לא נמצא ערך עבור ${cat}`}</p>
+            <p>{`לא נמצא ערך עבור ${params.itemid}`}</p>
             <AdminOnly><BigButton text="צור ערך" action={moveToCreatingItemPage} /></AdminOnly>
         </>
     )

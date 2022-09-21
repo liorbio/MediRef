@@ -36,7 +36,6 @@
     width: calc(100% - 2px - 2*var(--padding));
     font-size: 1.3rem;
     padding: var(--padding);
-    border-style: solid;
     border: 1px solid #d1d1d1;
     border-bottom: 0;
 }

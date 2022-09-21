@@ -2,3 +2,7 @@
     font-family: 'Rubik';
     src: local('Rubik'), url(fonts/Rubik-VariableFont_wght.ttf) format("truetype");
 }
+@font-face {
+    font-family: 'PressStart2P';
+    src: url('PressStart2P'), url(fonts/PressStart2P-Regular.ttf) format("truetype");
+}

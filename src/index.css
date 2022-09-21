@@ -8,6 +8,10 @@ body {
 }
 input, select, textarea {
   font-family: 'Rubik', sans-serif;
+  border-style: solid;
+  border: 1px solid #c1c1c1;
+  border-radius: 0;
+  -webkit-appearance: none;
 }
 
 code {

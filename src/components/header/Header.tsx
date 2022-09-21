@@ -4,13 +4,13 @@ import RightHeaderSide from "./RightHeaderSide";
 import classes from './Header.module.css';
 
 const Header = () => {
-    const loggedInAsAdmin = useAppSelector(state => state.auth.frontEndPrivilege !== "public");
+    const loggedInAs = useAppSelector(state => state.auth.frontEndPrivilege);
 
     return (
         <nav className={classes.navbar}>
-            <RightHeaderSide loggedInAsAdmin={loggedInAsAdmin} />
+            <RightHeaderSide loggedIn={!!loggedInAs} />
             <h1>hanaref</h1>
-            {loggedInAsAdmin && <LeftHeaderSide />}
+            {loggedInAs === "admin" && <LeftHeaderSide />}
         </nav>
     )
 };

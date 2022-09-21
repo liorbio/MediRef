@@ -16,14 +16,6 @@
     margin-top: 0.5rem;
     padding: var(--searchPadding);
     height: var(--searchSelectHeight);
-    border-style: solid;
-}
-.searchMenu input {
-    font-size: 1.6rem;
-    padding: var(--searchPadding);
-    height: var(--searchInputHeight);
-    border-style: solid;
-    border: 1px solid #999;
 }
 
 .listItemPusher {
@@ -58,4 +50,23 @@
     display: flex;
     flex-direction: column;
     height: calc(100vh - var(--navbarHeight) - var(--searchInputHeight) - 2*var(--searchSelectHeight) - 6*var(--searchPadding) - 2*0.5rem);
+}
+
+.searchBarWrapper {
+    display: grid;
+    grid-template: "container";
+}
+.searchBarWrapper input {
+    font-size: 1.6rem;
+    padding: var(--searchPadding);
+    height: var(--searchInputHeight);
+    border: 1px solid #999;
+    grid-area: container;
+}
+.xButton {
+    grid-area: container;
+    width: 2.5rem;
+    font-size: 2rem;
+    color: #888;
+    justify-self: end;
 }

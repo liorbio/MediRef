@@ -1,0 +1,1 @@
+export const backendFirebaseUri = "https://us-central1-hanaref-fd006.cloudfunctions.net/expressApi";

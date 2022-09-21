@@ -6,6 +6,7 @@ import SectorSelection from "./SectorSelection";
 import classes from './HomePage.module.css';
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
 import { viewingActions } from "../../store/viewing-slice";
+import { backendFirebaseUri } from "../../backend-variables/address";
 
 const SearchMenu = () => {
     const dispatch = useAppDispatch();
@@ -16,7 +17,7 @@ const SearchMenu = () => {
 
     useEffect(() => {
         // FETCH SECTORS FROM API + use setSectors on them.
-        fetch(`/sectors`, {
+        fetch(`${backendFirebaseUri}/sectors`, {
             headers: authToken ? {
                 'auth-token': authToken
             } : {}

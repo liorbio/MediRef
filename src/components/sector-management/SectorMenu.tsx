@@ -8,6 +8,7 @@ import classes from './SectorManagement.module.css';
 import { portalElement } from '../../elements/portalElement';
 import AreYouSure from '../UI/AreYouSure';
 import { viewingActions } from '../../store/viewing-slice';
+import { backendFirebaseUri } from '../../backend-variables/address';
 
 function vacateItemListIfEmpty(itemList: Department[]) {
     return itemList.filter(i => i.departmentName !== "");
@@ -56,7 +57,7 @@ const SectorMenu = ({ exit, sector, reload }: { exit: () => void, sector?: Secto
         const departmentsToSave = vacateItemListIfEmpty(departments);
 
         if (sector) { // if editing an existing sector
-            fetch(encodeURI(`/sectors/${sectorName}`), {
+            fetch(encodeURI(`${backendFirebaseUri}/sectors/${sectorName}`), {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -77,7 +78,7 @@ const SectorMenu = ({ exit, sector, reload }: { exit: () => void, sector?: Secto
                 })
                 .catch((err) => console.log(`Error updating sector: ${err}`));
         } else { // if creating a new sector
-            fetch(encodeURI(`/sectors`), {
+            fetch(encodeURI(`${backendFirebaseUri}/sectors`), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -122,7 +123,7 @@ const SectorMenu = ({ exit, sector, reload }: { exit: () => void, sector?: Secto
         setWarningBeforeDeletion(true);
     }
     const handleDeleteSector = () => {
-        fetch(`/sectors`, {
+        fetch(`${backendFirebaseUri}/sectors`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { backendFirebaseUri } from "../../backend-variables/address";
 import { useAppSelector } from "../../hooks/redux-hooks";
 import { Sector } from "../../types/sector_types";
 import classes from './SectorManagement.module.css';
@@ -18,7 +19,7 @@ const SectorManagement = () => {
     // 3. use the viewingSlice to trigger Are You Sure when editing
 
     useEffect(() => {
-        fetch(`/sectors`, {
+        fetch(`${backendFirebaseUri}/sectors`, {
             headers: {
                 'auth-token': authToken
             }

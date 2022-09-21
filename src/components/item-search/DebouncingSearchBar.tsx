@@ -1,7 +1,9 @@
 import { ChangeEvent, useEffect } from "react";
+import { backendFirebaseUri } from "../../backend-variables/address";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
 import { itemsActions } from "../../store/item-slice";
 import { viewingActions } from "../../store/viewing-slice";
+import classes from './HomePage.module.css';
 
 const DEBOUNCE_LAG = 800;
 
@@ -9,10 +11,14 @@ const DebouncingSearchBar = ({ sectorsLoaded, sector, department }: { sectorsLoa
     const dispatch = useAppDispatch();
     const noItemsLoaded = useAppSelector(state => state.items.items.length === 0);
     const searchVal = useAppSelector(state => state.viewing.searching.searchVal);
+    const authToken = useAppSelector(state => state.auth.jwt);
 
     const handleWrite = (event: ChangeEvent<HTMLInputElement>) => {
         dispatch(viewingActions.changeSearchCriteria({ searchVal: event.currentTarget.value }));
     };
+    const eraseSearchVal = () => {
+        dispatch(viewingActions.changeSearchCriteria({ searchVal: "" }));
+    }
 
     // Send ajax requests only upon changing the searchVal
     useEffect(() => { // Apply a DEBOUNCE_LAG amount of time allowing for more writing to happen without sending an ajax request
@@ -23,7 +29,11 @@ const DebouncingSearchBar = ({ sectorsLoaded, sector, department }: { sectorsLoa
                 // FETCH IN DEVELOPMENT VIA PROXYING
                 // READ MORE HERE: https://create-react-app.dev/docs/proxying-api-requests-in-development/
                 dispatch(itemsActions.declareSearchComplete(false));
-                fetch(encodeURI(`/items?search=${searchVal}&sector=${sector}&department=${department}`))
+                fetch(encodeURI(`${backendFirebaseUri}/items?search=${searchVal}&sector=${sector}&department=${department}`), {
+                    headers: {
+                        'auth-token': authToken
+                    }
+                })
                     .then((res) => res.json())
                     .then((jsonedRes) => {
                         dispatch(itemsActions.setItems(jsonedRes));
@@ -38,10 +48,13 @@ const DebouncingSearchBar = ({ sectorsLoaded, sector, department }: { sectorsLoa
         return () => {
             dispatch(itemsActions.clearItemList());
         }
-    }, [searchVal, sector, department, dispatch, sectorsLoaded, noItemsLoaded]);
+    }, [searchVal, sector, department, dispatch, sectorsLoaded, noItemsLoaded, authToken]);
 
     return (
-        <input type="text" value={searchVal} onChange={handleWrite} />
+        <div className={classes.searchBarWrapper}>
+            <input type="text" value={searchVal} onChange={handleWrite} />
+            {searchVal.length > 0 && <div className={classes.xButton} onClick={eraseSearchVal}>×</div>}
+        </div>
     )
 };
 

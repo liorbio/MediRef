@@ -12,6 +12,7 @@ import LoginPage from './components/login/LoginPage';
 import ItemMenu from './components/item-menu/ItemMenu';
 import SectorManagement from './components/sector-management/SectorManagement';
 import SectorMenu from './components/sector-management/SectorMenu';
+import NoItemFound from './components/item-page/NoItemFound';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -52,6 +53,8 @@ function App() {
           {/* Protected Routes: */}
           <Route path="/itemmenu" element={<AdminOnly><ItemMenu /></AdminOnly>} />
           <Route path="/itemmenu/:itemid" element={<AdminOnly><ItemMenu /></AdminOnly>} />
+          <Route path="/itemmenu/newitem/:newitemid" element={<AdminOnly><ItemMenu /></AdminOnly>} />
+          <Route path="/itemnotfound/:itemid" element={<NoItemFound />} />
           <Route path="/managesectors" element={<AdminOnly><SectorManagement /></AdminOnly>} />
           <Route path="/sectormenu" element={<AdminOnly><SectorMenu exit={() => navigate(-1)} /></AdminOnly>} />
         </Routes>

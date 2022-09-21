@@ -7,6 +7,7 @@ import LoadingSpinner from "../UI/LoadingSpinner";
 import { UIEvent, useEffect } from "react";
 import { viewingActions } from "../../store/viewing-slice";
 import { itemsActions } from "../../store/item-slice";
+import { backendFirebaseUri } from "../../backend-variables/address";
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ const HomePage = () => {
     const items = useAppSelector(state => state.items.items);
     const searchComplete = useAppSelector(state => state.items.searchComplete);
     const { searchVal, sector, department, page, blockScrollSearch } = useAppSelector(state => state.viewing.searching); 
+    const authToken = useAppSelector(state => state.auth.jwt);
 
     const goToItemPage = (cat: string) => {
         navigate(`/items/${cat}`);
@@ -27,7 +29,11 @@ const HomePage = () => {
     const handleScroll = (event: UIEvent<HTMLDivElement>) => {
         if (!blockScrollSearch && scrollThrottler && (event.currentTarget.scrollHeight - event.currentTarget.scrollTop < event.currentTarget.clientHeight + 70))  {
             scrollThrottler = false;
-            fetch(encodeURI(`/items?search=${searchVal}&sector=${sector}&department=${department}&page=${page}`))
+            fetch(encodeURI(`${backendFirebaseUri}/items?search=${searchVal}&sector=${sector}&department=${department}&page=${page}`), {
+                headers: {
+                    'auth-token': authToken
+                }
+            })
                 .then((res) => res.json())
                 .then((jsonedRes) => {
                     if (jsonedRes.length > 0) {

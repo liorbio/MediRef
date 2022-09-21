@@ -3,7 +3,8 @@
 .navbar {
     display: grid;
     grid-template-columns: 5rem 1fr 2rem 2rem;
-    background-color: #dff3ec;
+    background-color: #420101;
+    color: white;
     position: fixed;
     top: 0;
     z-index: 2;
@@ -15,6 +16,7 @@
     font-size: 1.3rem;
     margin: auto;
     grid-column: 2;
+    font-family: 'PressStart2P', 'Rubik', sans-serif;
 }
 .navbar span {
     margin: auto;

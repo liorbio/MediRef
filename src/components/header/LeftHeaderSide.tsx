@@ -7,8 +7,8 @@ const LeftHeaderSide = () => {
     const currentCat = useAppSelector(state => state.viewing.itemManagement.currentCat);
 
     const addItemAndManageSectors = <>
-        <span onClick={() => navigate('/itemmenu')} style={{ fontWeight: 800, lineHeight: 0 }}>+</span>
-        <span onClick={() => navigate('/managesectors')} style={{ fontWeight: 800, lineHeight: 0 }}>⋮</span>
+        <span onClick={() => navigate('/itemmenu')} style={{ lineHeight: 0 }}>+</span>
+        <span onClick={() => navigate('/managesectors')} style={{ lineHeight: 0 }}>⋮</span>
     </>;
 
     return (
@@ -17,6 +17,7 @@ const LeftHeaderSide = () => {
             <Route path="items/*" element={<AdminOnly><span onClick={() => navigate(`itemmenu/${currentCat}`)}>ערוך</span></AdminOnly>} />
             <Route path="itemmenu" element={<></>} />
             <Route path="itemmenu/*" element={<></>} />
+            <Route path="/itemnotfound/*" element={<></>} />
             <Route path="managesectors" element={<></>} />
             <Route path="sectormenu" element={<></>} />
         </Routes>

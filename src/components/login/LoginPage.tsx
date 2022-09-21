@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { backendFirebaseUri } from "../../backend-variables/address";
 import { useAppDispatch } from "../../hooks/redux-hooks";
 import { authActions } from "../../store/auth-slice";
 import BigButton from "../UI/BigButton";
@@ -18,7 +19,7 @@ const LoginPage = () => {
         setPasswordInput(event.target.value);
     }
     const handleLogin = () => {
-        fetch(`/login`,
+        fetch(`${backendFirebaseUri}/login`,
             {
                 headers: {
                     'Accept': 'application/json',
