@@ -1,9 +1,6 @@
-# MediRef App
+# hanaref app
 
-An index for medical devices in the IDF.
+An reference app for medical items in the IDF.
+Hanar = a contraction of Handasa Refuit, translating to medical engineering.
 
-## Link to the app: (insert link here)
-
-## See video demonstrating app usage here:
-
-(insert link here)
+## Link to the app: [hanaref app](https://hanaref-fd006.web.app/)
