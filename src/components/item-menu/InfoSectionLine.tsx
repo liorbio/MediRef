@@ -28,7 +28,7 @@ const InfoSectionLine = ({ isLast, item, addLine, deleteLine, editItemCat, editI
         <div className={classes.infoSectionLine}>
             <input type="text" placeholder={modelsLine ? 'מק"ט יצרן' : 'מק"ט'} value={item.cat} onChange={handleCatInput} onBlur={conditionalDeleteUponBlur} />
             <input type="text" placeholder={modelsLine ? 'שם דגם' : 'שם'} value={item.name} onChange={handleNameInput} onBlur={conditionalDeleteUponBlur} />
-            <div onClick={handleClick} className={(item.cat.length > 0 && item.name.length > 0) ? classes.infoSectionPlusClickable : classes.infoSectionPlusGrayed} style={{ display: isLast ? "block" : "none" }}>+</div>
+            <div onClick={handleClick} className={(item.cat.length > 0 && item.name.length > 0) ? classes.infoSectionPlusClickable : classes.infoSectionPlusGrayed} style={{ display: isLast ? "flex" : "none" }}>+</div>
         </div>
     )
 };

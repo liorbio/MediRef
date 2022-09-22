@@ -24,6 +24,9 @@
     font-size: 1.1rem;
     padding: 5px;
 }
+.itemMenu h3 {
+    margin-top: 2rem;
+}
 
 /* InfoSectionMenu */
 .infoSectionLine {
@@ -31,15 +34,21 @@
     grid-template-columns: 1fr 2fr 2.5rem;
     gap: 0.7rem;
     width: calc(100vw - 2*var(--gutterHorizontal));
-    margin-bottom: -1px;
+    height: 1.4rem;
+    margin-bottom: calc(1rem + 5px);
 }
 .infoSectionLine input {
     width: 100%;
+    height: 100%;
     margin-bottom: 0;
+    font-size: 1.1rem;
 }
 .infoSectionLine div {
-    line-height: 1.8;
-    height: calc(100% - 2px);
+    line-height: 1.6;
+    height: calc(100% + 10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .infoSectionPlusGrayed {
     background-color: #f1f1f1;

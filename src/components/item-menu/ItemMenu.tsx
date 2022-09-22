@@ -213,7 +213,7 @@ const ItemMenu = () => {
             <InfoSectionMenu title="מתכלים" items={consumables} setItems={setConsumables} />
             {catType === "מקט רגיל" && <InfoSectionMenu title="שייך לערכות" items={belongsToKits} setItems={setBelongsToKits} />}
             {catType === "מקט רגיל" && <InfoSectionMenu title="פריטים דומים" items={similarItems} setItems={setSimilarItems} />}
-            <BigButton text="שמור" action={handleSave} overrideStyle={{ marginTop: "1rem" }} />
+            <BigButton text="שמור" action={handleSave} overrideStyle={{ marginTop: "2.5rem" }} />
             {params.itemid && <BigButton text="מחק פריט" action={() => setAreYouSureDelete(true)} overrideStyle={{ marginTop: "1rem", backgroundColor: "#CE1F1F" }} />}
             {areYouSureDelete && <AreYouSure text="האם באמת למחוק פריט?" leftText='מחק' leftAction={handleDelete} rightText='לא' rightAction={() => setAreYouSureDelete(false)} />}
         </div>
