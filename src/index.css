@@ -13,9 +13,6 @@ input, select, textarea {
   border-radius: 0;
   -webkit-appearance: none;
 }
-input[type="checkbox"] {
-  -webkit-appearance: auto;
-}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
