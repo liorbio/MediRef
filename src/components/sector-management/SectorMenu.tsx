@@ -53,6 +53,10 @@ const SectorMenu = ({ exit, sector, reload }: { exit: () => void, sector?: Secto
             return newDepartments;
         })
     }
+    const toggleVisibility = () => {
+        dispatch(viewingActions.changesAppliedToSector(true));
+        setVisibleToPublic(prev => !prev);
+    }
     const handleSave = () => {
         const departmentsToSave = vacateItemListIfEmpty(departments);
 
@@ -146,7 +150,7 @@ const SectorMenu = ({ exit, sector, reload }: { exit: () => void, sector?: Secto
             {sector && ReactDOM.createPortal(<div className={classes.returnButtonCover} onClick={handleReturn}></div>, portalElement)}
             <input type="text" placeholder="שם המדור" value={sectorName} onChange={(event) => { dispatch(viewingActions.changesAppliedToSector(true)); setSectorName(event.target.value)}} />
             <div className={classes.checkbox}>
-                <input type="checkbox" id="hiddenFromPublic" defaultChecked={!visibleToPublic} onChange={() => setVisibleToPublic(prev => !prev)} />
+                <input type="checkbox" id="hiddenFromPublic" defaultChecked={!visibleToPublic} onChange={toggleVisibility} />
                 <label htmlFor="hiddenFromPublic">מוסתר מהציבור</label>
             </div>
             <input type="text" placeholder="שם תחום" value={departments[0].departmentName} onChange={(event) => handleDepartmentChangeByIndex(0, event)} />
