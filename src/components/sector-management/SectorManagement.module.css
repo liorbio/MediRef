@@ -51,6 +51,7 @@
 .checkbox input, label {
     width: auto;
     margin: 1rem;
+    -webkit-appearance: auto;
 }
 .checkbox label {
     margin-right: 0;
