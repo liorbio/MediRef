@@ -60,7 +60,7 @@ const ItemPage = () => {
             {item.models && item.models.length > 0 && <InfoSection title="דגמים" elements={item.models} unclickable={true} />}
             {item.kitItem && item.kitItem.length > 0 && <InfoSection title="מכשיר" elements={item.kitItem} />}
             {item.belongsToKits && item.belongsToKits.length > 0 && <InfoSection title="שייך לערכות" elements={item.belongsToKits} />}
-            {item.similarItems && item.similarItems.length > 0 && <InfoSection title="פריטים דומים" elements={item.similarItems} />}
+            {item.similarItems && item.similarItems.length > 0 && <InfoSection title="קשור ל..." elements={item.similarItems} />}
             {item.accessories && item.accessories.length > 0 && <InfoSection title="אביזרים" elements={item.accessories} />}
             {item.consumables && item.consumables.length > 0 && <InfoSection title="מתכלים" elements={item.consumables} />}
         </div>}

@@ -13,8 +13,13 @@ import CatTypeSelection from './CatTypeSelection';
 import InfoSectionMenu from './InfoSectionMenu';
 import classes from './ItemMenu.module.css';
 
-function vacateItemListIfEmpty(itemList: AbbreviatedItem[]) {
-    return itemList.filter(i => i.cat !== "" || i.name !== "");
+function vacateItemListIfEmptyAndRemoveSpaces(itemList: AbbreviatedItem[]) {
+    const filteredList = itemList.filter(i => i.cat !== "" || i.name !== "");
+    return filteredList.map(i => {
+        const output = {...i};
+        output.cat = output.cat.replace(/ /g, '');
+        return output;
+    })
 }
 
 const ItemMenu = () => {
@@ -41,7 +46,7 @@ const ItemMenu = () => {
 
     const itemDetails = {
         name: name,
-        cat: cat,
+        cat: cat.replace(/ /g, ''),
         sector: sector,
         department: department,
         catType: catType,
@@ -125,12 +130,12 @@ const ItemMenu = () => {
         setCatType(catType);
     }
     const handleSave = () => {
-        itemDetails.models = vacateItemListIfEmpty(itemDetails.models);
-        itemDetails.belongsToKits = vacateItemListIfEmpty(itemDetails.belongsToKits);
-        itemDetails.similarItems = vacateItemListIfEmpty(itemDetails.similarItems);
-        itemDetails.kitItem = vacateItemListIfEmpty(itemDetails.kitItem);
-        itemDetails.accessories = vacateItemListIfEmpty(itemDetails.accessories);
-        itemDetails.consumables = vacateItemListIfEmpty(itemDetails.consumables);
+        itemDetails.models = vacateItemListIfEmptyAndRemoveSpaces(itemDetails.models);
+        itemDetails.belongsToKits = vacateItemListIfEmptyAndRemoveSpaces(itemDetails.belongsToKits);
+        itemDetails.similarItems = vacateItemListIfEmptyAndRemoveSpaces(itemDetails.similarItems);
+        itemDetails.kitItem = vacateItemListIfEmptyAndRemoveSpaces(itemDetails.kitItem);
+        itemDetails.accessories = vacateItemListIfEmptyAndRemoveSpaces(itemDetails.accessories);
+        itemDetails.consumables = vacateItemListIfEmptyAndRemoveSpaces(itemDetails.consumables);
 
         if (catType === "מקט ערכה") {
             itemDetails.models = [];
@@ -212,7 +217,7 @@ const ItemMenu = () => {
             <InfoSectionMenu title="אביזרים" items={accessories} setItems={setAccessories} />
             <InfoSectionMenu title="מתכלים" items={consumables} setItems={setConsumables} />
             {catType === "מקט רגיל" && <InfoSectionMenu title="שייך לערכות" items={belongsToKits} setItems={setBelongsToKits} />}
-            {catType === "מקט רגיל" && <InfoSectionMenu title="פריטים דומים" items={similarItems} setItems={setSimilarItems} />}
+            {catType === "מקט רגיל" && <InfoSectionMenu title="קשור ל..." items={similarItems} setItems={setSimilarItems} />}
             <BigButton text="שמור" action={handleSave} overrideStyle={{ marginTop: "2.5rem" }} />
             {params.itemid && <BigButton text="מחק פריט" action={() => setAreYouSureDelete(true)} overrideStyle={{ marginTop: "1rem", backgroundColor: "#CE1F1F" }} />}
             {areYouSureDelete && <AreYouSure text="האם באמת למחוק פריט?" leftText='מחק' leftAction={handleDelete} rightText='לא' rightAction={() => setAreYouSureDelete(false)} />}
