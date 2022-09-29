@@ -6,7 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-input, select, textarea {
+input[type="text"], input[type="password"], select, textarea {
   font-family: 'Rubik', sans-serif;
   border-style: solid;
   border: 1px solid #c1c1c1;
