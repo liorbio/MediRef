@@ -6,3 +6,7 @@
     font-family: 'PressStart2P';
     src: url('PressStart2P'), url(fonts/PressStart2P-Regular.ttf) format("truetype");
 }
+@font-face {
+    font-family: 'Alef-Regular';
+    src: url('Alef-Regular'), url(fonts/Alef-Regular.ttf) format("truetype");
+}

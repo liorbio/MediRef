@@ -1,7 +1,7 @@
 import classes from './App.module.css';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { get } from 'idb-keyval';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch } from './hooks/redux-hooks';
 import { authActions } from './store/auth-slice';
 import Header from './components/header/Header';
@@ -17,8 +17,17 @@ import NoItemFound from './components/item-page/NoItemFound';
 function App() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [showWelcome, setShowWelcome] = useState(true);
+  const firstRender = useRef(true);
 
   useEffect(() => {
+    if (firstRender.current) {
+      setTimeout(() => {
+        firstRender.current = false;
+        setShowWelcome(false);
+      }, 5000);
+    }
+
     let autoLogoutTimer: NodeJS.Timeout;
 
     Promise.all([get('hanaref-jwt'), get('hanaref-front-end-privilege'), get('hanaref-jwt-expiry-date')])
@@ -59,8 +68,22 @@ function App() {
           <Route path="/sectormenu" element={<AdminOnly><SectorMenu exit={() => navigate(-1)} /></AdminOnly>} />
         </Routes>
       </div>
+      {showWelcome && <div className={classes.welcome} onClick={() => setShowWelcome(false)}>
+          <div className={classes.logoWrapper}>
+            <h1>hanaref</h1>
+            <h2>כל המכשור הרפואי במקום אחד</h2>
+          </div>
+          <div className={classes.medicalCorps}><img src="/MedicalCorpsSnake.png" alt="medical corps" />חיל הרפואה. בשבילך.</div>
+        </div>}
     </div>
   );
 }
 
 export default App;
+
+// פריטים רפואיים בקליק
+// פריטים רפואיים במקום אחד
+// כל הפריטים הרפואיים
+// פריטים רפואיים בשלוף
+// פריטי הנדסה רפואית
+// 

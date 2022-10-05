@@ -9,3 +9,56 @@
   position: absolute;
   width: 100vw;
 }
+
+@keyframes welcomeFade {
+  0% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.welcome {
+  position: fixed;
+  z-index: 10;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  opacity: 1;
+  animation: welcomeFade 5100ms ease-in-out;
+  display: flex;
+  flex-direction: column;
+}
+.logoWrapper {
+  background: linear-gradient(#6f0707 20%, #E52821 100%);
+  flex-grow: 1;
+}
+.logoWrapper h1 {
+  color: white;
+  font-family: 'PressStart2P', sans-serif;
+  letter-spacing: 0.1rem;
+}
+.logoWrapper h2 {
+  color: white;
+  font-family: 'Alef-Regular', sans-serif;
+}
+
+.medicalCorps {
+  background-color: #E52821;
+  width: 100vw;
+  color: white;
+  font-family: 'Alef-Regular', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  padding-bottom: 1rem;
+  flex-basis: 10rem;
+}
+.medicalCorps img {
+  height: 7rem;
+}
